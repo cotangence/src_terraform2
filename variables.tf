@@ -53,3 +53,12 @@ variable "each_vm" {
     }
   ]
 }
+
+variable "vms_resources_web"  {
+  type = map(number)
+  default = {
+    cores = 2
+    memory = 1
+    core_fraction = 20
+  }
+}

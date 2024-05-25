@@ -8,9 +8,9 @@ resource "yandex_compute_instance" "web" {
   platform_id = "standard-v1"
 
   resources {
-    cores         = 2
-    memory        = 1
-    core_fraction = 20
+    cores         = "${var.vms_resources_web["cores"]}"
+    memory        = "${var.vms_resources_web["memory"]}"
+    core_fraction = "${var.vms_resources_web["core_fraction"]}"
   }
 
   boot_disk {
