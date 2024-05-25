@@ -15,11 +15,14 @@ resource "local_file" "hosts_for" {
   %{for i in yandex_compute_instance.db }
   ${i["name"]}   ansible_host=${i["network_interface"][0]["nat_ip_address"]} fqdn=${i["fqdn"]}
   %{endfor}
-  [storage]
 
-  ${local.storage_name}   ansible_host=${local.storage_ip} fqdn=${local.storage_fqdn}
+  %{if length(yandex_compute_instance.storage) > 0}
+  [storage]
+  %{endif}
+  %{for i in [yandex_compute_instance.storage] }
+  ${i["name"]}   ansible_host=${i["network_interface"][0]["nat_ip_address"]} fqdn=${i["fqdn"]}
+  %{endfor}
   EOT
   filename = "${abspath(path.module)}/host.cfg"
 
 }
-#как сделать автоматическое корректное определение по yandex_compute_instance.*  я не понял, если машины созданы через count или for то все работает , но если там одна машина  то возвращаются другие данные =\
